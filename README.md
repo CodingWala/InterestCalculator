@@ -1,111 +1,73 @@
-# Object-Oriented Interest Calculator (TDD)
+# React + TypeScript + Vite
 
-A highly maintainable, test-driven Python application designed to compute simple and compound interest. This project serves as a showcase for solid **Object-Oriented Programming (OOP)**, implementation of **GoF Design Patterns**, and structured **Test-Driven Development (TDD)** using `pytest`.
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
----
+Currently, two official plugins are available:
 
-## 🛠️ Design Patterns & Architecture
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
 
-This application shifts away from rigid structural logic to allow effortless algorithm expansions without breaking core modules.
+## React Compiler
 
-### 1. Strategy Pattern
-Mathematical calculation models are extracted into dedicated strategy classes (`SimpleInterest`, `CompoundInterest`) derived from a unified abstract interface (`InterestStrategy`). This isolates individual mathematical formulas, satisfying the **Open/Closed Principle**—adding a new interest type (e.g., Daily Compounding) requires zero changes to existing strategies.
+The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
 
-### 2. Factory Method Pattern
-Object creation is deferred to the `InterestFactory` class. The main application requests an abstract calculation model using a simple string token. This dynamic binding cleanly decouples user interface workflows from core business mechanics.
+## Expanding the ESLint configuration
 
----
+If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
 
-## 📂 Project Structure
+```js
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
 
-The layout separates implementation layers from operational pipelines to guarantee independent modular execution:
+      // Remove tseslint.configs.recommended and replace with this
+      tseslint.configs.recommendedTypeChecked,
+      // Alternatively, use this for stricter rules
+      tseslint.configs.strictTypeChecked,
+      // Optionally, add this for stylistic rules
+      tseslint.configs.stylisticTypeChecked,
 
-```text
-interest_calculator/
-├── pyproject.toml         # Package builder metadata and testing configurations
-├── requirements.txt       # Global third-party dependency declarations
-├── main.py                # Executable CLI framework script
-├── src/
-│   └── interest_calculator/
-│       ├── __init__.py    # Explicit engine API definitions
-│       ├── factory.py     # Strategy generator engine logic
-│       └── strategies.py  # Pure mathematical abstraction algorithms
-└── tests/
-    └── test_calculator.py # Target validation suites running on pytest
+      // Other configs...
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
 
----
+You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
 
-## 🚀 Installation & Local Environment Setup
+```js
+// eslint.config.js
+import reactX from 'eslint-plugin-react-x'
+import reactDom from 'eslint-plugin-react-dom'
 
-Follow these steps to safely initialize the runtime environment on your system using an isolated virtual development layer.
-
-### 1. Clone & Navigate to the Project Root
-```bash
-cd interest_calculator
-```
-
-### 2. Configure a Virtual Environment
-Isolate execution paths from system-level python modifications to resolve `PATH` discovery issues natively:
-```bash
-# Generate localized python binary layer
-python3 -m venv venv
-
-# Activate shell overrides (macOS / Linux)
-source venv/bin/activate
-```
-
-### 3. Install Source Dependencies & Local Bindings
-Install your test runner tooling and map internal directory structures into local editable path references:
-```bash
-# Update localized pipeline dependencies
-pip install -r requirements.txt
-
-# Link source directories dynamically for package path discovery
-pip install -e .
-```
-
----
-
-## 🧪 Test-Driven Development (TDD) Workflow
-
-The system uses `pytest` configuration targets specified within `pyproject.toml`. Run the testing frameworks using any of the commands outlined below.
-
-### Run All Validation Suites
-```bash
-pytest
-```
-
-### Run Coverage Reports
-Measure code paths exercised by tests to track functional regressions:
-```bash
-pytest --cov=src
-```
-
-### Direct Module Execution Alternate
-If system shell hooks are constrained, invoke the active Python interpreter module directly:
-```bash
-python3 -m pytest
-```
-
----
-
-## 💻 Running the Application
-
-Execute the CLI wrapper to run live interest calculations interactive with real runtime inputs:
-
-```bash
-python main.py
-```
-
-### Sample CLI Operation Trace
-```text
---- OOP Interest Calculator ---
-Enter calculation type (simple/compound): compound
-Enter Principal amount: 5000
-Enter Annual Interest Rate (%): 6.5
-Enter Time (years): 4
-
-Calculated Interest: 1432.33
-Total Balance: 6432.33
+export default defineConfig([
+  globalIgnores(['dist']),
+  {
+    files: ['**/*.{ts,tsx}'],
+    extends: [
+      // Other configs...
+      // Enable lint rules for React
+      reactX.configs['recommended-typescript'],
+      // Enable lint rules for React DOM
+      reactDom.configs.recommended,
+    ],
+    languageOptions: {
+      parserOptions: {
+        project: ['./tsconfig.node.json', './tsconfig.app.json'],
+        tsconfigRootDir: import.meta.dirname,
+      },
+      // other options...
+    },
+  },
+])
 ```
