@@ -12,13 +12,10 @@ class CompoundInterestRequest(BaseModel):
 
 @router.post("/calculate")
 def calculate(data: CompoundInterestRequest):
-    maturity_amount = data.principal * (
-        (1 + data.rate / 100) ** data.years
-    )
+    maturity_amount = data.principal * ((1 + data.rate / 100) ** data.years)
 
     return {
         "investedAmount": data.principal,
-        "estimatedReturns":
-            maturity_amount - data.principal,
+        "estimatedReturns": maturity_amount - data.principal,
         "maturityAmount": maturity_amount,
     }
