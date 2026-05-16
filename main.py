@@ -1,5 +1,5 @@
 import sys
-from src.interest_calculator.factory import InterestFactory
+from backend.core.interest_calculator.factory import InterestFactory
 
 def main():
     print("--- OOP Interest Calculator ---")

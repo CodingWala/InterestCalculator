@@ -1,0 +1,66 @@
+name: API CI
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+  pull_request:
+    branches: [ "main", "develop" ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # =========================
+      # Setup Python
+      # =========================
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      # =========================
+      # Cache dependencies (FASTER BUILDS)
+      # =========================
+      - name: Cache pip
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/pip
+          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
+
+      # =========================
+      # Install dependencies
+      # =========================
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      # =========================
+      # Code formatting check (Black)
+      # =========================
+      - name: Check formatting (black)
+        run: |
+          pip install black
+          black --check backend/
+
+      # =========================
+      # Linting
+      # =========================
+      - name: Run lint (flake8)
+        run: |
+          pip install flake8
+          flake8 backend/
+
+      # =========================
+      # Run tests
+      # =========================
+      - name: Run tests (pytest)
+        run: |
+          pip install pytest
+          pytest -q
