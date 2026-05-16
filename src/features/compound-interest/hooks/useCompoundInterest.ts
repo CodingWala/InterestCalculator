@@ -1,24 +1,28 @@
-import { useMemo } from 'react';
-import {
-  calculateCompoundInterest,
-} from '../services/compoundInterest.service';
+import { useMemo, useState } from "react"
+import { calculateCompoundInterest } from "../services/compoundInterest.service"
 
-interface UseCompoundInterestProps {
-  principal: number;
-  rate: number;
-  years: number;
-}
+export function useCompoundInterest() {
+  const [principal, setPrincipal] = useState(100000)
+  const [rate, setRate] = useState(12)
+  const [years, setYears] = useState(10)
 
-export function useCompoundInterest({
-  principal,
-  rate,
-  years,
-}: UseCompoundInterestProps) {
-  return useMemo(() => {
+  const results = useMemo(() => {
     return calculateCompoundInterest({
       principal,
       rate,
       years,
-    });
-  }, [principal, rate, years]);
+    })
+  }, [principal, rate, years])
+
+  return {
+    principal,
+    rate,
+    years,
+
+    setPrincipal,
+    setRate,
+    setYears,
+
+    results,
+  }
 }
