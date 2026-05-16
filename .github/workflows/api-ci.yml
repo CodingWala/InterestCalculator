@@ -45,7 +45,7 @@ jobs:
       # =========================
       - name: Run tests
         run: |
-          PYTHONPATH=.:backend/core pytest --cov=backend
+          pytest -q
 
       # =========================
       # Code formatting check
