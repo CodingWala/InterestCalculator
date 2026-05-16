@@ -5,32 +5,62 @@ import {
   YAxis,
   Tooltip,
   ResponsiveContainer,
-} from 'recharts';
+  CartesianGrid,
+} from "recharts"
 
-interface GrowthChartProps {
-  data: {
-    year: number;
-    amount: number;
-  }[];
+import { formatCurrency } from "@/lib/formatters/currency"
+
+interface DataPoint {
+  year: number
+  value: number
 }
 
-function GrowthChart({ data }: GrowthChartProps) {
+interface Props {
+  data: DataPoint[]
+}
+
+export default function GrowthChart({
+  data,
+}: Props) {
   return (
-    <div className="h-96 w-full">
-      <ResponsiveContainer>
-        <LineChart data={data}>
-          <XAxis dataKey="year" />
-          <YAxis />
-          <Tooltip />
+    <div className="rounded-2xl border border-zinc-800 bg-zinc-900/60 p-6">
+      <h2 className="mb-6 text-xl font-semibold text-white">
+        Growth Projection
+      </h2>
 
-          <Line
-            type="monotone"
-            dataKey="amount"
-          />
-        </LineChart>
-      </ResponsiveContainer>
+      <div className="h-[320px]">
+        <ResponsiveContainer width="100%" height="100%">
+          <LineChart data={data}>
+            <CartesianGrid stroke="#27272a" />
+
+            <XAxis
+              dataKey="year"
+              stroke="#a1a1aa"
+            />
+
+            <YAxis
+              stroke="#a1a1aa"
+              tickFormatter={(value) =>
+                `₹${value / 1000}k`
+              }
+            />
+
+            <Tooltip
+              formatter={(value) =>
+                formatCurrency(Number(value))
+              }
+            />
+
+            <Line
+              type="monotone"
+              dataKey="value"
+              stroke="#818cf8"
+              strokeWidth={3}
+              dot={false}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
     </div>
-  );
+  )
 }
-
-export default GrowthChart;
