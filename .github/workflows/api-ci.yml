@@ -30,6 +30,8 @@ jobs:
         with:
           path: ~/.cache/pip
           key: ${{ runner.os }}-pip-${{ hashFiles('requirements.txt') }}
+          restore-keys: |
+            ${{ runner.os }}-pip-
 
       # =========================
       # Install dependencies
@@ -37,24 +39,26 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install pytest pytest-cov black flake8 fastapi
 
       # =========================
-      # Set PYTHONPATH (SINGLE SOURCE OF TRUTH)
+      # Run tests (Targets the root tests/ folder)
       # =========================
       - name: Run tests
         run: |
-          pytest -q
+          pytest tests/ -q
+        env:
+          PYTHONPATH: .
 
       # =========================
       # Code formatting check
       # =========================
       - name: Check formatting (black)
-        run: black --check backend/
+        run: black --check backend/ main.py tests/
 
       # =========================
       # Linting
       # =========================
       - name: Run lint (flake8)
-        run: flake8 backend/
+        run: flake8 backend/ main.py tests/
