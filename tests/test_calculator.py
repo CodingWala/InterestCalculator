@@ -1,9 +1,11 @@
-import pytest
-
 # Explicit absolute imports from the internal package structure
-from backend.core.interest_calculator.strategies import SimpleInterest, CompoundInterest
-from backend.core.interest_calculator.factory import InterestFactory
-
+from backend.core.interest_calculator.strategies import (
+    SimpleInterest,
+    CompoundInterest
+)
+from backend.core.interest_calculator.factory import (
+    InterestFactory,
+)
 
 def test_simple_interest_calculation():
     strategy = SimpleInterest()

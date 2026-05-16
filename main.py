@@ -4,7 +4,9 @@ from backend.core.interest_calculator.factory import InterestFactory
 
 def main():
     print("--- OOP Interest Calculator ---")
-    calc_type = input("Enter calculation type (simple/compound): ").strip().lower()
+    calc_type = input(
+                    "Enter calculation type (simple/compound): "
+                        ).strip().lower()
 
     try:
         strategy = InterestFactory.get_strategy(calc_type)
