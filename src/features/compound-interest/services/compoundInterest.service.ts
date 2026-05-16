@@ -1,24 +1,26 @@
 export interface CompoundInterestInput {
-  principal: number;
-  rate: number;
-  years: number;
+  principal: number
+  rate: number
+  years: number
 }
 
 export interface CompoundInterestResult {
-  maturityAmount: number;
-  interestEarned: number;
+  investedAmount: number
+  estimatedReturns: number
+  maturityAmount: number
 }
 
-export function calculateCompoundInterest(
-  input: CompoundInterestInput
-): CompoundInterestResult {
-  const { principal, rate, years } = input;
-
+export function calculateCompoundInterest({
+  principal,
+  rate,
+  years,
+}: CompoundInterestInput): CompoundInterestResult {
   const maturityAmount =
-    principal * Math.pow(1 + rate / 100, years);
+    principal * Math.pow(1 + rate / 100, years)
 
   return {
+    investedAmount: principal,
+    estimatedReturns: maturityAmount - principal,
     maturityAmount,
-    interestEarned: maturityAmount - principal,
-  };
+  }
 }

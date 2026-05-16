@@ -2,6 +2,10 @@ import CurrencyInput from "@/components/ui/inputs/CurrencyInput"
 import NumberInput from "@/components/ui/inputs/NumberInput"
 import SliderInput from "@/components/ui/inputs/SliderInput"
 
+import ResultCard from "@/components/ui/cards/ResultCard"
+
+import { formatCurrency } from "@/lib/formatters/currency"
+
 import { useCompoundInterest } from "../hooks/useCompoundInterest"
 
 export default function CompoundInterestForm() {
@@ -42,14 +46,21 @@ export default function CompoundInterestForm() {
         </div>
       </div>
 
-      <div className="rounded-2xl border border-zinc-800 p-6">
-        <h2 className="text-xl font-semibold text-white">
-          Results
-        </h2>
+      <div className="grid gap-4 md:grid-cols-3">
+        <ResultCard
+          title="Invested Amount"
+          value={formatCurrency(results.investedAmount)}
+        />
 
-        <div className="mt-4 text-zinc-300">
-          ₹ {results.maturityAmount.toFixed(2)}
-        </div>
+        <ResultCard
+          title="Estimated Returns"
+          value={formatCurrency(results.estimatedReturns)}
+        />
+
+        <ResultCard
+          title="Total Value"
+          value={formatCurrency(results.maturityAmount)}
+        />
       </div>
     </div>
   )
