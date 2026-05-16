@@ -61,4 +61,4 @@ jobs:
       # Linting
       # =========================
       - name: Run lint (flake8)
-        run: flake8 backend/ main.py tests/
+        run: flake8 backend/ main.py tests/ --max-line-length=88
