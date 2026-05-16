@@ -36,4 +36,4 @@ jobs:
 
     - name: Execute Pytest Suite with Coverage Verification
       run: |
-        pytest --cov=src --cov-report=term-missing
+        pytest --cov=interest_calculator --cov-report=term-missing
